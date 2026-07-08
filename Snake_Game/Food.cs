@@ -23,8 +23,8 @@ namespace Snake_Game {
         }
 
         public void changePosition() {
-            this.position.X = rand.Next(0, this.numRows) * Constants.SCALE;
-            this.position.Y = rand.Next(0, this.numCols) * Constants.SCALE;
+            this.position.X = rand.Next(0, this.numCols) * Constants.SCALE;
+            this.position.Y = rand.Next(0, this.numRows) * Constants.SCALE;
         }
     }
 }

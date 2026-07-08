@@ -53,13 +53,21 @@ namespace Snake_Game {
 
         public void update() {
 
-            if (Raylib.IsKeyDown(KeyboardKey.Up) && this.yDir != 1) {
+            int key = Raylib.GetKeyPressed();
+            int lastKeyPressed = 0;
+
+            while (key != 0) {
+                lastKeyPressed = key;
+                key = Raylib.GetKeyPressed();
+            }
+
+            if (lastKeyPressed == (int) KeyboardKey.Up && this.yDir != 1 * this.speed) {
                 this.setDir(0, -1 * this.speed);
-            } else if (Raylib.IsKeyDown(KeyboardKey.Down) && this.yDir != -1) {
+            } else if (lastKeyPressed == (int) KeyboardKey.Down && this.yDir != -1 * this.speed) {
                 this.setDir(0, 1 * this.speed);
-            } else if (Raylib.IsKeyDown(KeyboardKey.Right) && this.yDir != -1) {
+            } else if (lastKeyPressed == (int) KeyboardKey.Right && this.xDir != -1 * this.speed) {
                 this.setDir(1 * this.speed, 0);
-            } else if (Raylib.IsKeyDown(KeyboardKey.Left) && this.yDir != 1) {
+            } else if (lastKeyPressed == (int) KeyboardKey.Left && this.xDir != 1 * this.speed) {
                 this.setDir(-1 * this.speed, 0);
             }
 
@@ -71,6 +79,26 @@ namespace Snake_Game {
 
             this.body.RemoveAt(0);
             this.body.Add(new Vector2(this.headX, this.headY));
+        }
+
+        public bool isDead() {
+            if (
+                this.headX >= Constants.WINDOWWIDTH ||
+                this.headY >= Constants.WINDOWHEIGHT ||
+                this.headX < 0 || this.headY < 0
+                ) {
+                return true;
+            }
+
+            if (this.body[..^1].Contains(this.body[this.length-1])) {
+                return true;
+            }
+            
+            return false;
+        }
+
+        public int getScore() {
+            return this.length;
         }
 
         private void setDir(int x, int y) {
